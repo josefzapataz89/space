@@ -65,6 +65,9 @@ export class FilesService {
     console.log(`paso: ${paso}`);
 
     for (let c = 0; c < capas.length; c++) {
+      let x: any = [];
+      let y: any = [];
+      let x1: number = 0;
       let x1: number = 0;
       let x2: number = 0;
       let y1: number = 0;
@@ -72,7 +75,7 @@ export class FilesService {
 
       for (let i = 0; i < trans.length; i++) {
         for (let j = 1; j <= trans[i].length; j++) {
-          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j] ) {
+          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j].trim() ) {
 
             x1 = trans[i].length;
             y1 = trans.length;
@@ -85,31 +88,58 @@ export class FilesService {
 
       for (let i = 0; i < trans.length; i++) {
         for (let j = 1; j <= trans[i].length; j++) {
-          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j] ) {
+          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j].trim() ) {
+            x1 = ((j - 1) < x1) ? (j - 1) : x1;
+            y1 = (i < y1) ? i : y1;
+            x2 = ((j - 1) > x2) ? (j - 1) : x2;
+            y2 = (i > y2) ? i : y2;
 
-            x1 = ((j-1)<x1) ? (j-1) : x1;
-            y1 = (i<y1) ? i : y1;
-
-            x2 = ((j-1)>x2) ? (j-1) : x2;
-            y2 = (i>y2) ? i : y2;
+            x.push(x1);
+            x.push(x2);
+            y.push(y1);
+            y.push(y2);
           }
         }
       }
 
-      let px = ( (x1 * paso) + ((x2 +1) * paso) ) / 2;
-      let py = ( (y1 * paso) + (y2 * paso) ) / 2;
+      x1 = Math.min(...x);
+      x2 = Math.max(...x);
+      y1 = Math.min(...y);
+      y2 = Math.max(...y);
+
+      let px = ( ((x1) * paso) + ((x2+1) * paso) ) / 2;
+      let py = ( ((y1) * paso) + ((y2+1) * paso) ) / 2;
+      let alto = (((y2 + 1) * paso) - ((y1) * paso) );
+      let ancho = (((x2 + 1) * paso) - ((x1) * paso) );
+      let area = alto * ancho;
 
       coords.push({
         W: capas[c],
         Px: px.toFixed(3),
         Py: py.toFixed(3),
         x1,
-        x2,
+        x2: x2 + 1,
         y1,
-        y2
+        y2: y2 + 1,
+        area: area.toFixed(3)
       });
     }
 
+    coords.sort(descendente);
+
     return coords;
+  }
+
+  function descendente(a, b) {
+    let comparacion = 0;
+
+    if (Number(b.area) > Number(a.area)) {
+      comparacion = -1;
+    }
+    else if (a.area > Number(b.area)) {
+      comparacion = 1;
+    }
+
+    return comparacion;
   }
 }

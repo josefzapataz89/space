@@ -75,7 +75,14 @@ export class ArchivoComponent implements OnInit {
       trans = this._file.transponer(config[0], config[1], config[2], matrix);
       capas = this._file.getCapas(trans);
       coordenadas = this._file.getCoordenadas(trans, capas, this.configuraciones[_n][2]);
-      console.log(coordenadas);
+
+      let cadena = '';
+
+      let respuesta = coordenadas.map((nave, index) => {
+        console.log(`nave ${index} coords: `, nave);
+        return `${nave.W}:${nave.Px},${nave.Py}`;
+      });
+      console.log(`cadena `, respuesta.join(' '));
       // break;
     }
 
