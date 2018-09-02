@@ -1,0 +1,6 @@
+1
+4 4 136.51
+A B C C
+D B C C
+E E B D
+E F F A
