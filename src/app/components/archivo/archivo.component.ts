@@ -10,6 +10,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 export class ArchivoComponent implements OnInit {
   public configuraciones: any;
   public lectura_radar: any;
+  public respuestas: Array<any> = [];
   // tslint:disable-next-line:member-ordering
   private expresion = /[a-zA-Z]/;
   private lineas: any;
@@ -79,7 +80,7 @@ export class ArchivoComponent implements OnInit {
       capas = this._file.getCapas(trans);
       coordenadas = this._file.getCoordenadas(trans, capas, this.configuraciones[_n][2]);
 
-      console.log('cordenadas: ', coordenadas);
+      // console.log('cordenadas: ', coordenadas);
 
       let cadena = '';
 
@@ -87,9 +88,14 @@ export class ArchivoComponent implements OnInit {
         return `${nave.W}:${nave.Px},${nave.Py}`;
       });
 
-      // agrupar = this._file.proximidad(trans, coordenadas);
+      this.respuestas.push({
+        nave: (_n + 1),
+        respuesta: respuesta.join(' ')
+      });
 
-      console.log(`cadena `, respuesta.join(' '));
+      agrupar = this._file.proximidad(trans, coordenadas);
+
+      // console.log(`cadena `, respuesta.join(' '));
       // break;
     }
 

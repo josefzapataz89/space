@@ -12,8 +12,8 @@ export class FilesService {
 
   leerArchivo () {
     // lectura de archivo
-    // return this._http.get('assets/input.txt', { responseType: 'text' });
-    return this._http.get('assets/otros.txt', { responseType: 'text' });
+    return this._http.get('assets/input.txt', { responseType: 'text' });
+    // return this._http.get('assets/otros.txt', { responseType: 'text' });
     // return this._http.get('assets/inicial.txt', { responseType: 'text' });
   }
 
@@ -135,13 +135,35 @@ export class FilesService {
   proximidad(trans: any, coordenadas: any) {
     console.log(`coordenadas: `, coordenadas);
 
-    let capas: any = [];
-    for ( let item of coordenadas) {
-      capas.push(item.W);
-    }
+    let mat: any = [];
 
-    adjunto(capas, trans);
+    let index = 0;
+    mat = [coordenadas.length];
+    for (let capa of coordenadas) {
+
+      mat[index] = [trans.length];
+      for (let i = 0; i < trans.length; i++) {
+        mat[index][i] = [trans[i].length - 1];
+        for (let j = 1; j < trans[i].length; j++) {
+          if ((capa.x1 <= j && j <= capa.x2) && (capa.y1 <= i && i <= capa.y2) ) {
+            mat[index][i][j] = capa.W;
+            // console.log(`capa: ${capa.W} x: ${j} y: ${i}`);
+          }
+          else {
+            // console.log(`capa: vacio x: ${j} y: ${i}`);
+            mat[index][i][j] = '';
+          }
+        }
+      }
+      console.log(`capa: ${capa.W}`, mat[index]);
+      index++;
+    }
   }
+
+
+    // adjunto(capas, trans);
+  }
+
 
   function getVeces(capa: string, trans: any) {
     let contador: number = 0;
@@ -166,6 +188,14 @@ export class FilesService {
     }
     else if (a.area > Number(b.area)) {
       comparacion = 1;
+    }
+    else {
+      if (a.veces > b.veces) {
+        comparacion = 1;
+      }
+      else if (b.veces > a.veces) {
+        comparacion = -1;
+      }
     }
 
     return comparacion;

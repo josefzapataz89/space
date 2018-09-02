@@ -9,7 +9,15 @@
   </div>
 
   <ng-template #listado>
-    <div class="text-center">
+    <div class="container">
+      <div class="row" *ngFor="let resp of respuestas">
+        <div class="col-md-12">
+          <b>Nave: </b> {{ resp.nave }}
+        </div>
+        <div class="col-md-12">
+          <b>Target: </b>{{ resp.respuesta }}
+        </div>
+      </div>
     </div>
   </ng-template>
 </div>
