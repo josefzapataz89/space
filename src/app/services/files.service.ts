@@ -12,8 +12,8 @@ export class FilesService {
 
   leerArchivo () {
     // lectura de archivo
-    // return this._http.get('assets/input.txt', { responseType: 'text' });
-    return this._http.get('assets/otros.txt', { responseType: 'text' });
+    return this._http.get('assets/input.txt', { responseType: 'text' });
+    // return this._http.get('assets/otros.txt', { responseType: 'text' });
     // return this._http.get('assets/inicial.txt', { responseType: 'text' });
   }
 
@@ -157,7 +157,7 @@ export class FilesService {
             // mat[index][i][j] = capa.W;
             contador[index]++;
             // console.log(`capa: ${capa.W} x: ${j} y: ${i}`);
-          } 
+          }
         }
       }
 
