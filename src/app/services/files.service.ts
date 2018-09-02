@@ -146,17 +146,23 @@ export class FilesService {
     // console.log(`coordenadas: `, coordenadas);
 
     let contador: any = [];
+    let mat: any = [];
 
     let index = 0;
     contador = [coordenadas.length];
+    mat = [coordenadas.length];
     for (let capa of coordenadas) {
-      contador[index] = 0
+      contador[index] = 0;
+      mat[index] = [trans.length];
       for (let i = 0; i < trans.length; i++) {
-        for (let j = 1; j < trans[i].length; j++) {
-          if ((capa.x1 <= j && j <= (capa.x2 + 1)) && (capa.y1 <= i && i <= (capa.y2+1)) ) {
-            // mat[index][i][j] = capa.W;
+        mat[index][i] = [trans[i].length - 1];
+        for (let j = 0; j < trans[i].length-1; j++) {
+          if ((capa.x1 <= j && j <= capa.x2) && (capa.y1 <= i && i <= capa.y2 ) ) {
+            mat[index][i][j] = capa.W;
             contador[index]++;
             // console.log(`capa: ${capa.W} x: ${j} y: ${i}`);
+          } else {
+            mat[index][i][j] = '-';
           }
         }
       }
@@ -167,7 +173,7 @@ export class FilesService {
           item.diff = contador[index] - item.veces;
         }
       });
-      // console.log(`capa: ${capa.W}`, mat[index]);
+      // console.log(capa, mat[index]);
       index++;
     }
 

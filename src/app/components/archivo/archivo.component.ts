@@ -84,24 +84,48 @@ export class ArchivoComponent implements OnInit {
 
       let cadena = '';
 
-      let respuesta = coordenadas.map((nave, index) => {
-        return `${nave.W}:${nave.Px},${nave.Py}`;
-      });
-      
-      console.log(respuesta.join(' '));
+      // let respuesta = coordenadas.map((nave, index) => {
+      //   return `${nave.W}:${nave.Px},${nave.Py}`;
+      // });
 
-      this.respuestas.push({
-        nave: (_n + 1),
-        respuesta: respuesta.join(' ')
-      });
+      // console.log(respuesta.join(' '));
+
+      // this.respuestas.push({
+      //   nave: (_n + 1),
+      //   respuesta: respuesta.join(' ')
+      // });
 
       agrupar = this._file.proximidad(trans, coordenadas);
 
-      // console.log(agrupar);
-      // break;
-    }
-    // console.log(this.respuestas);
+      let agrupadas: Array<any> = [];
+      let restante: Array<any>=[];
 
+      for ( let resp of agrupar ) {
+        if ( resp.diff === 0) {
+          agrupadas.push(resp);
+        } else {
+          restante.push(resp);
+        }
+      }
+
+      let r_ag = agrupadas.map((nave, index) => {
+        return `${nave.W}:${nave.Px},${nave.Py}`;
+      });
+
+      let r_no = restante.map((nave, index) => {
+        return `${nave.W}:${nave.Px},${nave.Py}`;
+      });
+
+      let res_a = r_ag.join(';');
+      let res_b = r_no.join(' ');
+
+      this.respuestas.push({
+        nave: (_n + 1),
+        respuesta: res_a + ' ' + res_b
+      });
+
+      console.log(res_a + ' ' + res_b);
+    }
   }
 
 }
