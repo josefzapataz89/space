@@ -87,6 +87,8 @@ export class ArchivoComponent implements OnInit {
       let respuesta = coordenadas.map((nave, index) => {
         return `${nave.W}:${nave.Px},${nave.Py}`;
       });
+      
+      console.log(respuesta.join(' '));
 
       this.respuestas.push({
         nave: (_n + 1),
@@ -95,8 +97,7 @@ export class ArchivoComponent implements OnInit {
 
       agrupar = this._file.proximidad(trans, coordenadas);
 
-      console.log(agrupar);
-      // console.log(`cadena `, respuesta.join(' '));
+      // console.log(agrupar);
       // break;
     }
     // console.log(this.respuestas);
