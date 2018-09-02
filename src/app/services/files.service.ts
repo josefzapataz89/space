@@ -13,7 +13,8 @@ export class FilesService {
   leerArchivo () {
     // lectura de archivo
     // return this._http.get('assets/input.txt', { responseType: 'text' });
-    return this._http.get('assets/inicial.txt', { responseType: 'text' });
+    return this._http.get('assets/otros.txt', { responseType: 'text' });
+    // return this._http.get('assets/inicial.txt', { responseType: 'text' });
   }
 
   transponer(rows: number, columns: number, step:number, matrix: any) {
@@ -38,7 +39,7 @@ export class FilesService {
     let uniques: any = [];
 
     for (let i = 0; i < trans.length; i++) {
-      for (let j = 1; j <= trans[i].length; j++) {
+      for (let j = 1; j < trans[i].length; j++) {
         let capa = trans[i][j];
         if ( capa !== "" && capa !== undefined) {
           capas.push(capa);
@@ -61,8 +62,6 @@ export class FilesService {
 
   getCoordenadas(trans: any, capas: any, paso:number) {
     let coords: any = [];
-    console.log(`capas: ${capas}`);
-    console.log(`paso: ${paso}`);
 
     for (let c = 0; c < capas.length; c++) {
       let x: any = [];
@@ -73,9 +72,11 @@ export class FilesService {
       let y1: number = 0;
       let y2: number = 0;
 
+      let contador = getVeces(capas[c], trans);
+
       for (let i = 0; i < trans.length; i++) {
-        for (let j = 1; j <= trans[i].length; j++) {
-          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j].trim() ) {
+        for (let j = 1; j < trans[i].length; j++) {
+          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c].trim() === trans[i][j].trim() ) {
 
             x1 = trans[i].length;
             y1 = trans.length;
@@ -87,8 +88,8 @@ export class FilesService {
       }
 
       for (let i = 0; i < trans.length; i++) {
-        for (let j = 1; j <= trans[i].length; j++) {
-          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c] === trans[i][j].trim() ) {
+        for (let j = 1; j < trans[i].length; j++) {
+          if (trans[i][j] !== '' && trans[i][j] !== undefined && capas[c].trim() === trans[i][j].trim() ) {
             x1 = ((j - 1) < x1) ? (j - 1) : x1;
             y1 = (i < y1) ? i : y1;
             x2 = ((j - 1) > x2) ? (j - 1) : x2;
@@ -114,13 +115,14 @@ export class FilesService {
       let area = alto * ancho;
 
       coords.push({
-        W: capas[c],
+        W: capas[c].trim(),
         Px: px.toFixed(3),
         Py: py.toFixed(3),
+        veces: contador,
         x1,
-        x2: x2 + 1,
+        x2,
         y1,
-        y2: y2 + 1,
+        y2,
         area: area.toFixed(3)
       });
     }
@@ -128,6 +130,32 @@ export class FilesService {
     coords.sort(descendente);
 
     return coords;
+  }
+
+  proximidad(trans: any, coordenadas: any) {
+    console.log(`coordenadas: `, coordenadas);
+
+    let capas: any = [];
+    for ( let item of coordenadas) {
+      capas.push(item.W);
+    }
+
+    adjunto(capas, trans);
+  }
+
+  function getVeces(capa: string, trans: any) {
+    let contador: number = 0;
+
+    for (let i = 0; i < trans.length; i++) {
+      for (let j = 1; j < trans[i].length; j++) {
+        if (trans[i][j] !== '' && trans[i][j] !== undefined && capa.trim() === trans[i][j].trim()) {
+          contador++;
+        }
+      }
+    }
+
+    return contador;
+
   }
 
   function descendente(a, b) {
@@ -141,5 +169,28 @@ export class FilesService {
     }
 
     return comparacion;
+  }
+
+  function adjunto ( capas: any, trans: any ) {
+    let mat: any = [trans.length];
+    let entrada: string = [];
+
+    for (let capa of capas) {
+      for (let i = 0; i < trans.length; i++) {
+        mat[i] = [trans[i].length - 1];
+        for (let j = 1; j < trans[i].length; j++) {
+          if (trans[i][j].trim() === capa.trim()) {
+            mat[i][j] = capa;
+          }
+          else {
+            mat[i][j] = undefined;
+          }
+        }
+      }
+    }
+
+    console.log(`matriz`, mat);
+    console.log(`entradas`, entrada);
+
   }
 }

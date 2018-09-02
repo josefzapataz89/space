@@ -62,6 +62,7 @@ export class ArchivoComponent implements OnInit {
     let trans:any;
     let capas:any;
     let coordenadas:any;
+    let agrupar:any;
     let matrix:any = [];
     let config:any = [];
 
@@ -73,15 +74,21 @@ export class ArchivoComponent implements OnInit {
       }
 
       trans = this._file.transponer(config[0], config[1], config[2], matrix);
+      console.log('trans: ', trans);
+
       capas = this._file.getCapas(trans);
       coordenadas = this._file.getCoordenadas(trans, capas, this.configuraciones[_n][2]);
+
+      console.log('cordenadas: ', coordenadas);
 
       let cadena = '';
 
       let respuesta = coordenadas.map((nave, index) => {
-        console.log(`nave ${index} coords: `, nave);
         return `${nave.W}:${nave.Px},${nave.Py}`;
       });
+
+      // agrupar = this._file.proximidad(trans, coordenadas);
+
       console.log(`cadena `, respuesta.join(' '));
       // break;
     }

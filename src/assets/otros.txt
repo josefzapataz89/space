@@ -1,0 +1,34 @@
+3
+4 4 136.51
+A B C C
+D B C C
+E E B D
+E F F A
+5 31 123.47
+] [ G G G G G G G G G G G G G G G G G G G G G c c c c c h h ^
+^ [ G G G G G G G G G G I I I G G G G G G G G K K K K Y Q Q t
+\ ] G G f f o o U U U U U U U U U U U U U U U a a a a a M M M
+\ ^ G G j j j j j j j j L L L j j j E E E E E j j j j j M M M
+z B B B B B B B B B B B B B B B B B B B B B B B B C C d \ q s
+21 20 93.61
+[ \ ^ ] [ \ [ ] [ [ ] [ [ \ ] ^ \ ] [ ]
+\ [ e e e e e e e e e e e e e ] ^ \ [ ^
+^ S S S e e e e e e e e e e e b M M M M
+s S S S e e e e e e e e e e e A A M Q Q
+s S S S e e e e e e e e e k k k k k k Q
+s S S S e e e e e e e e e k k k k k k Q
+s S S S z l l l l l z z w k k k k k k Q
+s S S S z l J J l l z z w k k k k k k Q
+s S S S z l J J l l z z w k k k k k k Q
+g S S S g l J P P P P P P P P P P P P P
+g S S S g l J P P P P P P P P P P P P P
+g S S S g o J P P P P P P P P P P P P P
+s S S S z o J P P P P P P P P P P P P P
+s S S S K L J P P P P P P P P P P P P P
+s S S S c L J P P P P P P P P P P P P P
+s S S S c L J P P P P P P P P P P P P P
+s z z z X L J P P P P P P P P P P P P P
+s s s s c L J P P P P P P P P P P P P P
+s s s s c L J P P P P P P P P P P P P P
+[ R R R R R J J n t q q q q q q G G q N
+[ [ ^ \ \ ^ ^ [ v v v v \ ] ] \ G G ] \
