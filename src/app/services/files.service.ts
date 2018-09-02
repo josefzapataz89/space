@@ -12,8 +12,8 @@ export class FilesService {
 
   leerArchivo () {
     // lectura de archivo
-    return this._http.get('assets/input.txt', { responseType: 'text' });
-    // return this._http.get('assets/otros.txt', { responseType: 'text' });
+    // return this._http.get('assets/input.txt', { responseType: 'text' });
+    return this._http.get('assets/otros.txt', { responseType: 'text' });
     // return this._http.get('assets/inicial.txt', { responseType: 'text' });
   }
 
@@ -62,17 +62,25 @@ export class FilesService {
 
   getCoordenadas(trans: any, capas: any, paso:number) {
     let coords: any = [];
+    let x: any = [];
+    let y: any = [];
+    var x1: number;
+    var x1: number;
+    var x2: number;
+    var y1: number;
+    var y2: number;
+
 
     for (let c = 0; c < capas.length; c++) {
-      let x: any = [];
-      let y: any = [];
-      let x1: number = 0;
-      let x1: number = 0;
-      let x2: number = 0;
-      let y1: number = 0;
-      let y2: number = 0;
+      x = [];
+      y = [];
+      // x1 = 0;
+      // x1 = 0;
+      // x2 = 0;
+      // y1 = 0;
+      // y2 = 0;
 
-      let contador = getVeces(capas[c], trans);
+      let contador = this.contarVeces(capas[c], trans);
 
       for (let i = 0; i < trans.length; i++) {
         for (let j = 1; j < trans[i].length; j++) {
@@ -119,6 +127,8 @@ export class FilesService {
         Px: px.toFixed(3),
         Py: py.toFixed(3),
         veces: contador,
+        maximo: contador,
+        diff: contador,
         x1,
         x2,
         y1,
@@ -127,45 +137,46 @@ export class FilesService {
       });
     }
 
-    coords.sort(descendente);
+    coords.sort(this.descendente);
 
     return coords;
   }
 
   proximidad(trans: any, coordenadas: any) {
-    console.log(`coordenadas: `, coordenadas);
+    // console.log(`coordenadas: `, coordenadas);
 
-    let mat: any = [];
+    let contador: any = [];
 
     let index = 0;
-    mat = [coordenadas.length];
+    contador = [coordenadas.length];
     for (let capa of coordenadas) {
-
-      mat[index] = [trans.length];
+      contador[index] = 0
       for (let i = 0; i < trans.length; i++) {
-        mat[index][i] = [trans[i].length - 1];
         for (let j = 1; j < trans[i].length; j++) {
-          if ((capa.x1 <= j && j <= capa.x2) && (capa.y1 <= i && i <= capa.y2) ) {
-            mat[index][i][j] = capa.W;
+          if ((capa.x1 <= j && j <= (capa.x2 + 1)) && (capa.y1 <= i && i <= (capa.y2+1)) ) {
+            // mat[index][i][j] = capa.W;
+            contador[index]++;
             // console.log(`capa: ${capa.W} x: ${j} y: ${i}`);
-          }
-          else {
-            // console.log(`capa: vacio x: ${j} y: ${i}`);
-            mat[index][i][j] = '';
-          }
+          } 
         }
       }
-      console.log(`capa: ${capa.W}`, mat[index]);
+
+      coordenadas.map( (item, i) => {
+        if ( item.W === capa.W ) {
+          item.maximo = contador[index];
+          item.diff = contador[index] - item.veces;
+        }
+      });
+      // console.log(`capa: ${capa.W}`, mat[index]);
       index++;
     }
-  }
 
-
+    return coordenadas;
     // adjunto(capas, trans);
   }
 
 
-  function getVeces(capa: string, trans: any) {
+  contarVeces(capa: string, trans: any) {
     let contador: number = 0;
 
     for (let i = 0; i < trans.length; i++) {
@@ -180,7 +191,7 @@ export class FilesService {
 
   }
 
-  function descendente(a, b) {
+  descendente(a, b) {
     let comparacion = 0;
 
     if (Number(b.area) > Number(a.area)) {
@@ -201,9 +212,9 @@ export class FilesService {
     return comparacion;
   }
 
-  function adjunto ( capas: any, trans: any ) {
+  adjunto ( capas: any, trans: any ) {
     let mat: any = [trans.length];
-    let entrada: string = [];
+    let entrada: Array<string>;
 
     for (let capa of capas) {
       for (let i = 0; i < trans.length; i++) {
@@ -219,8 +230,8 @@ export class FilesService {
       }
     }
 
-    console.log(`matriz`, mat);
-    console.log(`entradas`, entrada);
+    // console.log(`matriz`, mat);
+    // console.log(`entradas`, entrada);
 
   }
 }

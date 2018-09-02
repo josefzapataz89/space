@@ -75,7 +75,7 @@ export class ArchivoComponent implements OnInit {
       }
 
       trans = this._file.transponer(config[0], config[1], config[2], matrix);
-      console.log('trans: ', trans);
+      // console.log('trans: ', trans);
 
       capas = this._file.getCapas(trans);
       coordenadas = this._file.getCoordenadas(trans, capas, this.configuraciones[_n][2]);
@@ -95,9 +95,11 @@ export class ArchivoComponent implements OnInit {
 
       agrupar = this._file.proximidad(trans, coordenadas);
 
+      console.log(agrupar);
       // console.log(`cadena `, respuesta.join(' '));
       // break;
     }
+    // console.log(this.respuestas);
 
   }
 
